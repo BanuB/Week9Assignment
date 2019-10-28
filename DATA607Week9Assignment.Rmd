@@ -1,0 +1,57 @@
+---
+title: "DATA607Week9Assignment"
+author: "Banu Boopalan"
+date: "10/27/2019"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: hide
+  ioslides_presentation: default
+  pdf_document: default
+  slidy_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(jsonlite)
+library(tidyr)
+library(dplyr)
+library(stringr)
+library(kableExtra)
+```
+
+## Read in Book api using example calls and  my API key
+
+
+```{r} 
+myurl1 <- "https://api.nytimes.com/svc/books/v3/lists/2019-10-26/hardcover-fiction.json?api-key=wl3OA7v4AV7cjxGya142nvRGGv46HdNG"
+myresponse1 <- fromJSON(myurl1)
+
+myresponse1$results$books %>% kable() %>% kable_styling() %>% scroll_box(width = "910px", height = "400px")
+```
+
+## Read in Book api using example calls and  my API key
+
+
+```{r} 
+myurl2 <- "https://api.nytimes.com/svc/books/v3/lists/2019-10-26/hardcover-nonfiction.json?api-key=wl3OA7v4AV7cjxGya142nvRGGv46HdNG"
+myresponse2 <- fromJSON(myurl2)
+myresponse2$results$books %>% kable() %>% kable_styling() %>% scroll_box(width = "910px", height = "400px")
+```
+
+## Read in Book review service in api using example calls and  my API key
+
+
+```{r} 
+myurl3 <- "https://api.nytimes.com/svc/books/v3/reviews.json?author=Stephen+King&api-key=wl3OA7v4AV7cjxGya142nvRGGv46HdNG"
+myresponse3 <- fromJSON(myurl3)
+str(myresponse3)
+
+df <- fromJSON(myurl3, flatten = TRUE) %>% data.frame()
+str(df)
+
+df1 <- select(df, results.book_title, results.url, results.book_author, results.summary, results.publication_dt)
+df1 %>% kable() %>% kable_styling() %>% scroll_box(width = "910px", height = "400px")
+```
+
